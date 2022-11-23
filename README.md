@@ -54,3 +54,6 @@ heads_contour.dbf  heads_points.cpg   heads_points.shx    heads_polygons.shp
 heads_contour.prj  heads_points.dbf   heads_polygons.cpg  heads_polygons.shx
 heads_contour.shp  heads_points.prj   heads_polygons.dbf
 
+![alt text](https://github.com/HPham-INTERA/head2shp/blob/main/output/contour_qgis.png?raw=true)
+
+
