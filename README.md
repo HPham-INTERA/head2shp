@@ -6,9 +6,9 @@ Modified from https://github.com/rosskush/spatialpy
 # Requirements: Python 3 with libs: flopy geopandas numpy rasterio matplotlib scipy
 
 
-# =============================================
+=============================================
 # INSTALLATION Python Environment using Anaconda
-# =============================================
+=============================================
 
 [1] Install Anaconda
 - Download Anaconda https://repo.anaconda.com/archive/Anaconda3-2022.10-Windows-x86_64.exe
@@ -26,19 +26,19 @@ Method 2:
 - Install a new conda environment: conda create -n flopy python=3
 - Activate the just created conda environment: conda activate flopy
 - Install some libraries needed for the script (all libs at once to avoid conflict): conda install -c conda-forge flopy geopandas numpy rasterio matplotlib scipy
-# =============================================
+=============================================
 
 
-# =============================================
+=============================================
 # RUN SCRIPT ==================================
-# =============================================
+=============================================
 - CLONE THIS REPO: git clone https://github.com/HPham-INTERA/head2shp.git (Windows machine)
 - Open program "Anaconda Prompt (Anaconda3)"
 - Activate flopy conda env: conda activate flopy
 - Go to folder head2shape
 - Run this command: 
 
-# python hed2shp.py "full_path_to_grid" "full_path_to_hds" con_min con_max con_interval crs
+python hed2shp.py "full_path_to_grid" "full_path_to_hds" con_min con_max con_interval crs
 
 python hed2shp.py "input\grid.shp" "input\model.hds" 121.2 121.7 0.005 32149
 
@@ -48,8 +48,7 @@ python hed2shp.py "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\hea
 
 
 
-# See output at the output folder
-
+# See outputs in the output folder
 -rw-r--r-- 1  1049089      10 Nov 22 21:56 heads_contour.cpg
 -rw-r--r-- 1  1049089    6116 Nov 22 21:56 heads_contour.dbf
 -rw-r--r-- 1  1049089     534 Nov 22 21:56 heads_contour.prj
