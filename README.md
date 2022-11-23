@@ -1,5 +1,6 @@
 # head2shp
 Convert MODFLOW head solution (2D MODFLOW-USG) to shapefiles (e.g., contours, poly, and point shapefiles)
+Modified from https://github.com/rosskush/spatialpy
 
 # Requirements: Python 3 with libs: flopy geopandas numpy rasterio matplotlib scipy
 
@@ -40,7 +41,7 @@ Method 2:
 
 python hed2shp.py "input\grid.shp" "input\model.hds" 121.2 121.7 0.005 32149
 
-or
+or using full paths
 
 python hed2shp.py "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\head2shp\input\grid.shp" "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\head2shp\input\model.hds" 121.2 121.7 0.005 32149
 

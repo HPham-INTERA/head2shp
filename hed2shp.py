@@ -68,7 +68,7 @@ class interp2d():
             self.res = res
         else:
             # if res not passed, then res will be the distance between xmin and xmax / 1000
-            self.res = (self.xmax - self.xmin) / 1000
+            self.res = (self.xmax - self.xmin) / 2000
 
         self.ncol = int(np.ceil((self.xmax - self.xmin) / self.res)) # delx
         self.nrow = int(np.ceil((self.ymax - self.ymin) / self.res))# dely
