@@ -6,9 +6,9 @@ Modified from https://github.com/rosskush/spatialpy
 # Requirements: Python 3 with libs: flopy geopandas numpy rasterio matplotlib scipy
 
 
-# =============================================================================
-# INSTALLATION Python Environment using Anaconda ==============================
-# =============================================================================
+# ==============================================
+# INSTALLATION Python Environment using Anaconda
+# ==============================================
 
 [1] Install Anaconda
 - Download Anaconda https://repo.anaconda.com/archive/Anaconda3-2022.10-Windows-x86_64.exe
@@ -26,12 +26,12 @@ Method 2:
 - Install a new conda environment: conda create -n flopy python=3
 - Activate the just created conda environment: conda activate flopy
 - Install some libraries needed for the script (all libs at once to avoid conflict): conda install -c conda-forge flopy geopandas numpy rasterio matplotlib scipy
-# =============================================================================
+# ==============================================
 
 
-# =============================================================================
-# RUN SCRIPT ==================================================================
-# =============================================================================
+# ==============================================
+# RUN SCRIPT ===================================
+# ==============================================
 - CLONE THIS REPO: git clone https://github.com/HPham-INTERA/head2shp.git (Windows machine)
 - Open program "Anaconda Prompt (Anaconda3)"
 - Activate flopy conda env: conda activate flopy
