@@ -49,19 +49,8 @@ python hed2shp.py "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\hea
 
 
 # See outputs in the output folder
--rw-r--r-- 1  1049089      10 Nov 22 21:56 heads_contour.cpg
--rw-r--r-- 1  1049089    6116 Nov 22 21:56 heads_contour.dbf
--rw-r--r-- 1  1049089     534 Nov 22 21:56 heads_contour.prj
--rw-r--r-- 1  1049089 2799588 Nov 22 21:56 heads_contour.shp
--rw-r--r-- 1  1049089    2036 Nov 22 21:56 heads_contour.shx
--rw-r--r-- 1  1049089      10 Nov 22 21:56 heads_points.cpg
--rw-r--r-- 1  1049089  470463 Nov 22 21:56 heads_points.dbf
--rw-r--r-- 1  1049089     534 Nov 22 21:56 heads_points.prj
--rw-r--r-- 1  1049089   94824 Nov 22 21:56 heads_points.shp
--rw-r--r-- 1  1049089   27164 Nov 22 21:56 heads_points.shx
--rw-r--r-- 1  1049089      10 Nov 22 21:56 heads_polygons.cpg
--rw-r--r-- 1  1049089  308015 Nov 22 21:56 heads_polygons.dbf
--rw-r--r-- 1  1049089     534 Nov 22 21:56 heads_polygons.prj
--rw-r--r-- 1  1049089  564220 Nov 22 21:56 heads_polygons.shp
--rw-r--r-- 1  1049089   27164 Nov 22 21:56 heads_polygons.shx
+heads_contour.cpg  heads_contour.shx  heads_points.shp    heads_polygons.prj
+heads_contour.dbf  heads_points.cpg   heads_points.shx    heads_polygons.shp
+heads_contour.prj  heads_points.dbf   heads_polygons.cpg  heads_polygons.shx
+heads_contour.shp  heads_points.prj   heads_polygons.dbf
 
