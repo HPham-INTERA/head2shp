@@ -35,7 +35,7 @@ Method 2:
 - CLONE THIS REPO: git clone https://github.com/HPham-INTERA/head2shp.git (Windows machine)
 - Open program "Anaconda Prompt (Anaconda3)"
 - Activate flopy conda env: conda activate flopy
-- Go to folder head2shape
+- Go to folder head2shp
 - Run this command: 
 
 python hed2shp.py "full_path_to_grid" "full_path_to_hds" con_min con_max con_interval crs
