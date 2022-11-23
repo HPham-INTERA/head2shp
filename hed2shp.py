@@ -1,25 +1,40 @@
 import geopandas as gpd
 import numpy as np
-import rasterio
+#import rasterio
 from rasterio.transform import from_origin
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.model_selection import train_test_split
+#from sklearn.neighbors import KNeighborsRegressor
+#from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from scipy import interpolate
-import scipy
-import fiona
+#import scipy
+#import fiona
 import os
 #import flopy
+import sys
 import flopy.utils.binaryfile as bf
+
+
+#Read head solution from a 2D MODFLOW-USG flow model simulation
+#Currently testing using python env irp
+
+#Scripts were modified from https://github.com/rosskush/spatialpy
+
+# to run, use syntax: 
+# python hed2shp.py "full_path_to_grid" "full_path_to_hds" con_min con_max con_interval crs
+# e.g., 
+# python hed2shp.py "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\head2shp\input\grid.shp" "c:\Users\hpham\OneDrive - INTERA Inc\projects\51_contours\head2shp\input\model.hds" 121.2 121.7 0.005 32149
+# (Note: Must use double quotation for the paths)
+# Last updated: 11/22/2022 by hpham
+
 
 # from skspatial import utils
 
-pykrige_install = True
+#pykrige_install = True
 
-try:
-    from pykrige.ok import OrdinaryKriging
-except:
-    pykrige_install = False
+#try:
+#    from pykrige.ok import OrdinaryKriging
+#except:
+#    pykrige_install = False
 
 class interp2d():
     def __init__(self,gdf,attribute,res=None, ulc=(np.nan,np.nan), lrc=(np.nan,np.nan)):
@@ -333,6 +348,14 @@ class interp2d():
         fig.tight_layout()
         return axes
 
+def create_new_dir(directory):
+    # directory = os.path.dirname(file_path)
+    try:
+        os.stat(directory)
+    except:
+        os.mkdir(directory)
+        print(f'Created a new directory {directory}\n')
+
 def print_ver():
     #print('numpy version: {}'.format(np.__version__))                      # 
     #print('pandas version: {}'.format(pd.__version__))                      # 
@@ -362,7 +385,7 @@ def hed2shp_points_poly(grd_ifile, hed_ifile, path2ofile,crs):
     
     
     # Write polygon shapefile of heads ----------------------------------------
-    gdf=gdf.assign(hds=usghds[0].tolist())
+    gdf=gdf.assign(z=usghds[0].tolist())
     ofile_polygons = (f'{path2ofile}/heads_polygons.shp')    
     gdf = gpd.GeoDataFrame(gdf, crs=crs)
     gdf.to_file(driver = 'ESRI Shapefile', filename = ofile_polygons)      
@@ -381,32 +404,56 @@ def hed2shp_points_poly(grd_ifile, hed_ifile, path2ofile,crs):
 
    
 if __name__ == '__main__':
-    # [00] Print version of libs in use
+    
+    # [1] Load input file -----------------------------------------------------
+    #ifile = f'input/input.csv'
+    grd_ifile = sys.argv[1]
+    print(f'\nGrid file: {grd_ifile}\n')
+    hed_ifile = sys.argv[2]
+    print(f'Head file: {hed_ifile}\n')
+
+    vmin = float(sys.argv[3])
+    vmax = float(sys.argv[4])
+    interval = float(sys.argv[5])
+    crs = int(sys.argv[6])
+
+
+    # [00] Print version of libs in use =======================================
     print_ver()
 
+    # [00] specify input files/info ===========================================
+    #grd_ifile='input/grid.shp'     # MODFLOW Model grid file
+    #hed_ifile = 'input/model.hds'  # Head solution by MODFLOW
+    
+    
+    path2ofile = 'output'          # To save outputs
+    crs = {'init': f'epsg:{crs}'}   # Coordinate Ref Sys
+
     # [01] Generate shapefile of head solution =================================
-    grd_ifile='input/grid.shp'
-    hed_ifile = 'input/model.hds'
-    path2ofile = 'output'
-    crs = {'init': 'epsg:32149'}
+    # This include point shape file and poly shape file.
     hed2shp_points_poly(grd_ifile, hed_ifile, path2ofile,crs)
     # =========================================================================
 
     # [2] Create head contours ================================================
+    # if existing "heads_points.shp", no need to run 1. 
     ifile_shp_head = 'output/heads_points.shp' # Generated from Step 01
-    # gdf = gpd.read_file(os.path.join('..','examples','data','linear_pts.shp'))
     gdf = gpd.read_file(ifile_shp_head)
 
-    gdf['coords'] = gdf['geometry'].apply(lambda x: x.representative_point().coords[:])
-    # gdf = gdf.to_crs('+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs')
-    gdf['coords'] = [coords[0] for coords in gdf['coords']]
-    #res = 5280/8 # 8th of a mile grid size
-    res = 5
-    ml = interp2d(gdf,'hds',res=res)
+    #res = 5
+    #ml = interp2d(gdf,'z',res=res)
+    ml = interp2d(gdf,'z',res=np.nan)
     array = ml.interpolate_2D(method='linear',fill_value=np.nan) #fill_value=np.nan
-    arr_min = np.nanmin(array) # 121.2249
-    arr_max = np.nanmax(array) # 221.73709
+    #arr_min = np.nanmin(array) # 121.2249
+    #arr_max = np.nanmax(array) # 221.73709
     
+    crs = {'init': 'epsg:32149'}
+    ofile_contour = 'output/test_contour.shp'
+    ml.write_contours(array,path=ofile_contour,val_min=vmin,val_max=vmax, interval=interval, levels = None, crs=crs)
+    # =========================================================================
+
+
+
+    '''
     # Quick plot option =======================================================
     opt_show_plot = False
     if opt_show_plot:
@@ -414,7 +461,7 @@ if __name__ == '__main__':
         ax = ml.plot_image(array,'Heads value\n')
         gdf.plot(ax=ax)
         for idx, row in gdf.iterrows():
-            plt.annotate(text=row['hds'], xy=row['coords'], horizontalalignment='left')
+            plt.annotate(text=row['z'], xy=row['coords'], horizontalalignment='left')
             # plt.annotate(s=row['WL_Res'], xy=row['coords'], horizontalalignment='left')
 
         CS = plt.contour(np.flipud(array), vmin=121.1,vmax=121.7 ,extent=ml.extent)
@@ -424,10 +471,5 @@ if __name__ == '__main__':
 
     # Write raster: Err, not sure why, come back later. 
     #path = 'test.tif'
-    #ml.write_raster(array,path)
-
-    crs = {'init': 'epsg:32149'}
-    ml.write_contours(array,path='output/test_contour.shp',val_min=121.2,val_max=121.7, interval=0.005, levels = None, crs=crs)
-
-
-    plt.show()
+    #ml.write_raster(array,path)    
+    '''
