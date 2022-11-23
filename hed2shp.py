@@ -420,6 +420,7 @@ if __name__ == '__main__':
 
     # [00] Print version of libs in use =======================================
     print_ver()
+    create_new_dir('output')
 
     # [00] specify input files/info ===========================================
     #grd_ifile='input/grid.shp'     # MODFLOW Model grid file
@@ -447,7 +448,7 @@ if __name__ == '__main__':
     #arr_max = np.nanmax(array) # 221.73709
     
     crs = {'init': 'epsg:32149'}
-    ofile_contour = 'output/test_contour.shp'
+    ofile_contour = 'output/heads_contour.shp'
     ml.write_contours(array,path=ofile_contour,val_min=vmin,val_max=vmax, interval=interval, levels = None, crs=crs)
     # =========================================================================
 
